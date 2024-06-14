@@ -1,3 +1,5 @@
+use ibm_ds_class;
+
 
 drop table if exists PETRESCUE;
 
@@ -20,5 +22,111 @@ insert into PETRESCUE values
 	(7,'Cat',1,44.44,'2018-06-11'),
 	(8,'Goldfish',24,48.48,'2018-06-14'),
 	(9,'Dog',2,222.22,'2018-06-15')
-	
 ;
+
+SELECT * FROM PETRESCUE;
+
+SELECT SUM(COST)
+FROM PETRESCUE;
+
+SELECT SUM(COST) AS 'SUM_OF_COST'
+FROM PETRESCUE;
+
+SELECT ANIMAL, MAX(QUANTITY)
+FROM PETRESCUE
+GROUP BY ANIMAL;
+
+SELECT AVG(COST)
+FROM PETRESCUE;
+
+SELECT ANIMAL , AVG(COST)
+FROM PETRESCUE
+GROUP BY ANIMAL;
+
+SELECT ANIMAL, ROUND(COST)
+FROM PETRESCUE;
+
+SELECT ANIMAL, ROUND(COST, 0)
+FROM PETRESCUE;
+
+SELECT ANIMAL, ROUND(COST, 1)
+FROM PETRESCUE;
+
+SELECT ANIMAL, ROUND(COST, 2)
+FROM PETRESCUE;
+
+SELECT ANIMAL, length(ANIMAL)
+FROM PETRESCUE;
+
+SELECT ANIMAL, UCASE(ANIMAL)
+FROM PETRESCUE;
+
+SELECT ANIMAL, lCASE(ANIMAL)
+FROM PETRESCUE;
+
+
+# ----- Date Functions ---- 
+
+
+SELECT * 
+FROM PETRESCUE;
+
+SELECT RESCUEDATE
+FROM PETRESCUE;
+
+# DAY OF RESCUE
+SELECT RESCUEDATE, DAY(RESCUEDATE) AS 'DAY'
+FROM PETRESCUE;
+
+# DAY OF RESCUE
+SELECT RESCUEDATE, MONTH(RESCUEDATE) AS 'MONTH'
+FROM PETRESCUE;
+
+# DAY OF RESCUE
+SELECT RESCUEDATE, year(RESCUEDATE) AS 'YEAR'
+FROM PETRESCUE;
+
+SELECT RESCUEDATE,  DATE_ADD(RESCUEDATE, INTERVAL 3 DAY) AS 'DL_VET'
+FROM PETRESCUE;
+
+SELECT RESCUEDATE,  DATE_ADD(RESCUEDATE, INTERVAL 3 MONTH) AS 'MONTH_VET'
+FROM PETRESCUE;
+
+SELECT RESCUEDATE,  DATE_SUB(RESCUEDATE, INTERVAL 3 DAY) AS 'DL_VET'
+FROM PETRESCUE;
+
+SELECT datediff(CURRENT_DATE, RESCUEDATE) AS 'Time_PASSED'
+FROM PETRESCUE;
+
+ 
+SELECT FROM_DAYS(datediff(CURRENT_DATE, RESCUEDATE)) AS 'Time_PASSED' ## PRESENT In a YYYY-MM-DD
+FROM PETRESCUE;
+
+### ---------- Prectice Problems ---------
+# Write a query that displays the average cost of rescuing a single dog. Note that the cost per dog would not be the same in different instances.
+SELECT * FROM PETRESCUE;
+
+SELECT ANIMAL, AVG(COST/Quantity)
+FROM PETRESCUE
+WHERE ANIMAL = 'dog';
+
+# Write a query that displays the animal name in each rescue in uppercase without duplications.
+
+SELECT DISTINCT UCASE(ANIMAL)
+FROM PETRESCUE;
+
+# Write a query that displays all the columns from the PETRESCUE table where the animal(s) rescued are cats. Use cat in lowercase in the query.
+ SELECT *
+ FROM PETRESCUE
+ WHERE LCASE(ANIMAL) = 'cat';
+ 
+# Write a query that displays the number of rescues in the 5th month.
+SELECT SUM(Quantity)
+FROM PETRESCUE
+WHERE MONTH(RESCUEDATE) = '05';
+
+# The rescue shelter is supposed to find good homes for all animals within 1 year of their rescue. Write a query that displays the ID and the target date.
+
+SELECT ID, DATE_ADD(RESCUEDATE, INTERVAL 1 YEAR) AS 'Target Date'
+FROM PETRESCUE;
+
