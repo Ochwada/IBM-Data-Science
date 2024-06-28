@@ -1,3 +1,7 @@
+CREATE schema HR;
+
+use hr; 
+
 drop table departments;
 drop table employees;
 drop table jobs;
@@ -50,8 +54,6 @@ CREATE TABLE LOCATIONS (
 );
 
 # String Pattern
-
-USE HR;
 
 SELECT * FROM employees;
 
@@ -117,8 +119,50 @@ GROUP BY DEP_ID
 HAVING AVG_SALARY >= 60000
 ORDER BY AVG_SALARY DESC;
 
+# -------- Hands-on Lab: Working with Multiple Tables ----------
+### 1: Retrieve only the EMPLOYEES records corresponding to jobs in the JOBS table. (JOB ID)
+
+SELECT * FROM employees  
+WHERE JOB_ID IN ( SELECT JOB_IDENT
+					FROM jobs);
+			# ---------  OR -------
+SELECT *
+FROM EMPLOYEES, JOBS
+WHERE EMPLOYEES.JOB_ID = JOBS.JOB_IDENT;
 
 
+### 2. Retrieve JOB information for employees earning over $70,000
+
+SELECT  JOB_TITLE, MIN_SALARY, MAX_SALARY, JOB_IDENT
+FROM jobs
+WHERE JOB_IDENT IN ( SELECT JOB_ID FROM employees
+					WHERE SALARY > 70000);
+
+SELECT *
+FROM EMPLOYEES E, JOBS J
+WHERE E.JOB_ID = J.JOB_IDENT;
+
+SELECT EMP_ID,F_NAME,L_NAME, JOB_TITLE
+FROM EMPLOYEES E, JOBS J
+WHERE E.JOB_ID = J.JOB_IDENT;
+
+SELECT E.EMP_ID, E.F_NAME, E.L_NAME, J.JOB_TITLE
+FROM EMPLOYEES E, JOBS J
+WHERE E.JOB_ID = J.JOB_IDENT;
+
+## Practice problems
+SELECT * FROM jobs;
+SELECT * FROM employees;
+
+# 1. Retrieve only the list of employees whose JOB_TITLE is Jr. Designer.
+ 
+SELECT EMP_ID, F_NAME, L_NAME, JOB_ID
+FROM EMPLOYEES 
+WHERE JOB_ID IN ( SELECT JOB_IDENT FROM jobs
+				WHERE JOB_TITLE = 'Jr. Designer');
+	 #  OR -  Using Implicit Joins 
+SELECT *
+FROM EMPLOYEES E, JOBS J
+WHERE E.JOB_ID = J.JOB_IDENT AND J.JOB_TITLE= 'Jr. Designer';
 
                             
-						
